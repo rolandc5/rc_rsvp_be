@@ -1,0 +1,20 @@
+{
+  "name": "rc-rsvp-be",
+  "version": "0.0.0",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "private": true,
+  "dependencies": {
+    "@google-cloud/local-auth": "^2.1.0",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "googleapis": "^105.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.7",
+    "nodemon": "^3.1.9",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3"
+  }
+}
