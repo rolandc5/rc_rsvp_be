@@ -70,5 +70,5 @@ server.post('/update', async (req, res) => {
 });
 
 server.listen((21790), () => {
-  console.log(`Server Connected ${21790}`);
+  console.log(`Server Connected 21790`);
 })
