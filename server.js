@@ -69,6 +69,6 @@ server.post('/update', async (req, res) => {
   }
 });
 
-server.listen((8080), () => {
-  console.log('Server Connected 8080');
+server.listen((8080), (port) => {
+  console.log(`Server Connected ${port}`);
 })
