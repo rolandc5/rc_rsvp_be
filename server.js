@@ -56,12 +56,12 @@ server.post('/update', async (req, res) => {
   try {
     const list = await sheets.spreadsheets.values.update({
       spreadsheetId: '1aQR6RLkfeDQ_SujGRyw_N4g_1LkTUm3ENGhgMCLuOAw',
-      range: `list!A${req.body.range[0]}:F${req.body.range[req.body.range.length - 1]}`,
+      range: `list!A${req.body.range[0]}:H${req.body.range[req.body.range.length - 1]}`,
       valueInputOption: 'USER_ENTERED',
       resource: {values: req.body.group}
     });
     if (list.status === 200) {
-      return res.status(200).send('saved');
+      return res.status(200).json({ message: 'Successfully updated the RSVP list' });
     }
   }
   catch (err) {
