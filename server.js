@@ -27,9 +27,11 @@ server.get('/', async (req, res) => {
       spreadsheetId: '1aQR6RLkfeDQ_SujGRyw_N4g_1LkTUm3ENGhgMCLuOAw',
       range: 'list!A2:H',
     });
-    console.log(list.data.values);
     const sRsvp = list.data.values.find((personVal) => {
-      if (personVal.length !== 0 && `${personVal[1].toLowerCase()} ${personVal[2].toLowerCase()}` === name.toLowerCase()) {
+      console.log(personVal[2], name.toLowerCase());
+      if (personVal.length !== 0 && `${personVal[1].toLowerCase()} ${personVal[3].toLowerCase()}` === name.toLowerCase()) {
+        return personVal;
+      } else if (personVal.length !== 0 && personVal[2].toLowerCase().includes(name.toLowerCase())) {
         return personVal;
       }
     });
@@ -37,7 +39,7 @@ server.get('/', async (req, res) => {
       throw new Error('Could not find name in RSVP list');
     }
     const gRsvp = list.data.values.filter((group, i) => {
-      if (sRsvp[3] === group[3]) {
+      if (sRsvp[4] === group[4]) {
         range.push(i + 2);
         return group;
       }
