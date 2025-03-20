@@ -19,20 +19,26 @@ auth.getClient().then(result => {
   });
 });
 
+const findName = (fullText, searchName) => {
+  const namePattern = new RegExp(`\\b${searchName}\\b`, 'i');
+  return namePattern.test(fullText);
+}
+
 server.get('/', async (req, res) => {
   try {
     const { name } = req.query;
+    if (!name) {
+      return res.status(400).json({ message: 'Name query parameter is required' });
+    }
     const range = [];
     const list = await sheets.spreadsheets.values.get({
       spreadsheetId: '1aQR6RLkfeDQ_SujGRyw_N4g_1LkTUm3ENGhgMCLuOAw',
-      range: 'list!A2:H',
+      range: 'list!A2:I',
     });
     const sRsvp = list.data.values.find((personVal) => {
-      console.log(personVal[2], name.toLowerCase());
-      if (personVal.length !== 0 && `${personVal[1].toLowerCase()} ${personVal[3].toLowerCase()}` === name.toLowerCase()) {
-        return personVal;
-      } else if (personVal.length !== 0 && personVal[2].toLowerCase().includes(name.toLowerCase())) {
-        return personVal;
+      const nameStr = `${personVal[1].toLowerCase()} ${personVal[3].toLowerCase()}` + ' ' + personVal[2].toLowerCase();
+      if (findName(nameStr, name)) {
+        return personVal
       }
     });
     if (sRsvp === undefined || sRsvp.length === 0) {
@@ -58,7 +64,7 @@ server.post('/update', async (req, res) => {
   try {
     const list = await sheets.spreadsheets.values.update({
       spreadsheetId: '1aQR6RLkfeDQ_SujGRyw_N4g_1LkTUm3ENGhgMCLuOAw',
-      range: `list!A${req.body.range[0]}:H${req.body.range[req.body.range.length - 1]}`,
+      range: `list!A${req.body.range[0]}:I${req.body.range[req.body.range.length - 1]}`,
       valueInputOption: 'USER_ENTERED',
       resource: {values: req.body.group}
     });
