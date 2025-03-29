@@ -36,7 +36,7 @@ server.get('/', async (req, res) => {
       range: 'list!A2:I',
     });
     const sRsvp = list.data.values.find((personVal) => {
-      const nameStr = `${personVal[1].toLowerCase()} ${personVal[3].toLowerCase()}` + ' ' + personVal[2].toLowerCase();
+      const nameStr = `${personVal[1].toLowerCase()} ${personVal[3].toLowerCase()}` + ', ' + personVal[2].toLowerCase();
       if (findName(nameStr, name)) {
         return personVal
       }
