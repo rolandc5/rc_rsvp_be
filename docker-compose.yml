@@ -1,0 +1,10 @@
+services:
+   rsvp_ui_be:
+      build: .
+      container_name: rsvp_ui_be
+      ports:
+        - 21790:21790
+      command: npm start
+      volumes:
+        - .:/app
+      restart: unless-stopped
