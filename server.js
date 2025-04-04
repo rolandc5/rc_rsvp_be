@@ -73,6 +73,9 @@ const createData = (range, group) => {
 
 server.post('/update', async (req, res) => {
   try {
+    if (req.body.range.length < 0 && req.body.values.length < 0) {
+      return res.status(400).json({ message: 'Invalid range and values' });
+    }
     const data = createData(req.body.range, req.body.group);
     const list = await sheets.spreadsheets.values.batchUpdate({
       spreadsheetId: '1aQR6RLkfeDQ_SujGRyw_N4g_1LkTUm3ENGhgMCLuOAw',
@@ -84,7 +87,6 @@ server.post('/update', async (req, res) => {
     if (list.status === 200) {
       return res.status(200).json({ message: 'Successfully updated the RSVP list' });
     }
-    return res.status(200).send('wow');
   }
   catch (err) {
     res.status(500).json({ message: err.message });
