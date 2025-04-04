@@ -27,7 +27,7 @@ const findName = (fullText, searchName) => {
 server.get('/', async (req, res) => {
   try {
     const { name } = req.query;
-    if (!name) {
+    if (!name || name.split(' ').length < 2) {
       return res.status(400).json({ message: 'Name query parameter is required' });
     }
     const range = [];
@@ -60,17 +60,31 @@ server.get('/', async (req, res) => {
   }
 });
 
+const createData = (range, group) => {
+  const data = [];
+  for (let i = 0; i < range.length; i++) {
+    data.push({
+      range: `List!A${range[i]}:I${range[i]}`,
+      values: [group[i]]
+    })
+  }
+  return data; 
+}
+
 server.post('/update', async (req, res) => {
   try {
-    const list = await sheets.spreadsheets.values.update({
+    const data = createData(req.body.range, req.body.group);
+    const list = await sheets.spreadsheets.values.batchUpdate({
       spreadsheetId: '1aQR6RLkfeDQ_SujGRyw_N4g_1LkTUm3ENGhgMCLuOAw',
-      range: `list!A${req.body.range[0]}:I${req.body.range[req.body.range.length - 1]}`,
-      valueInputOption: 'USER_ENTERED',
-      resource: {values: req.body.group}
+      requestBody: {
+        valueInputOption: 'USER_ENTERED',
+        data: data
+      }
     });
     if (list.status === 200) {
       return res.status(200).json({ message: 'Successfully updated the RSVP list' });
     }
+    return res.status(200).send('wow');
   }
   catch (err) {
     res.status(500).json({ message: err.message });
