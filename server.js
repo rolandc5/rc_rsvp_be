@@ -33,7 +33,7 @@ server.get('/', async (req, res) => {
     const range = [];
     const list = await sheets.spreadsheets.values.get({
       spreadsheetId: '1aQR6RLkfeDQ_SujGRyw_N4g_1LkTUm3ENGhgMCLuOAw',
-      range: 'list!A2:I',
+      range: 'list!A2:L',
     });
     const sRsvp = list.data.values.find((personVal) => {
       if (personVal.length > 0) {
@@ -66,7 +66,7 @@ const createData = (range, group) => {
   const data = [];
   for (let i = 0; i < range.length; i++) {
     data.push({
-      range: `List!A${range[i]}:I${range[i]}`,
+      range: `List!A${range[i]}:L${range[i]}`,
       values: [group[i]]
     })
   }
